@@ -53,18 +53,12 @@ def richards(x, A, u, d, v, y0):
     """Richards growth model (equivalent to Stannard).
 
     Proposed in Zwietering et al., 1990 (PMID: 16348228)
+    
+    This is the equivalent of the current version, with mistakes highlighted:
+    y = (A * pow(1 + v + np.exp(1 + v) * np.exp((u / A) *     (1 + v) * (1 + (1 / v)) * (d - x)), -(1 / v))) + y0
+                       ^                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     """
-    y = (
-        A
-        * pow(
-            1
-            + (
-                v
-                + (np.exp(1 + v) * np.exp((u / A) * (1 + v) * (1 + (1 / v)) * (d - x)))
-            ),
-            -(1 / v),
-        )
-    ) + y0
+    y = (A * pow(1 + v * np.exp(1 + v) * np.exp((u / A) * pow((1 + v), (1 + (1 / v))) * (d - x)), -(1 / v))) + y0
     return y
 
 
